@@ -1,13 +1,16 @@
-﻿using ShoppingSystem.Models;
+﻿using ShoppingSystem.Forms;
+using ShoppingSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ShoppingSystem.Data;
 
 namespace ShoppingSystem
 {
@@ -16,19 +19,26 @@ namespace ShoppingSystem
         public MainForm()
         {
             InitializeComponent();
-            btnSearch.Click += btnSearch_Click;
-            cmbCategory.SelectedIndexChanged += cmbCategory_SelectedIndexChanged;
-            btnCart.Click += btnCart_Click;
-            btnAdmin.Click += btnAdmin_Click;
+            //btnSearch.Click += btnSearch_Click;
+            //cmbCategory.SelectedIndexChanged += cmbCategory_SelectedIndexChanged;
+            //btnCart.Click += btnCart_Click;
+            //btnAdmin.Click += btnAdmin_Click;
 
-            LoadSampleProducts();
+            //LoadSampleProducts();
             SetupCategoryComboBox();
             DisplayProducts(products);
+        
         }
+
+        private List<Product> products = new List<Product>();
+        private List<CartItem> cartItems = new List<CartItem>();
+        private List<Order> orderHistory = new List<Order>();
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-     
+            string keyword = txtSearch.Text.Trim().ToLower();
+            var filter = products.FindAll(p=>p.Name.ToLower().Contains(keyword));
+            DisplayProducts(filter);
         }
 
         private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)
@@ -42,39 +52,42 @@ namespace ShoppingSystem
 
         private void btnCart_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("購物車功能待實作");
+            using(CheckoutForm form = new CheckoutForm(cartItems))
+            {
+                // 建立副本，保證資料不會被 CheckoutForm 清掉
+                var cartSnapshot = cartItems.Select(item => new CartItem
+                {
+                    Product = item.Product,
+                    Quantity = item.Quantity
+                }).ToList();
+
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    // 這裡才建立訂單（使用 cartSnapshot，而不是 cartItems）
+                    var newOrder = new Order
+                    {
+                        OrderId = orderHistory.Count + 1,
+                        Date = DateTime.Now,
+                        Items = cartSnapshot
+                    };
+                    orderHistory.Add(newOrder);
+
+                    cartItems.Clear();
+                    UpdateCartButtonText();
+                }
+            }
         }
 
         private void btnAdmin_Click(object sender, EventArgs e)
         {
             MessageBox.Show("管理員功能待實作");
         }
-
-        //簡易商品類別
-        public class Product
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public int Price { get; set; }
-            public string Category { get; set; }
-            public string ImagePath { get; set; }
-        }
-        // 購物車項目類別
-        public class CartItem
-        {
-            public Product Product { get; set; }
-            public int Quantity { get; set; }
-        }
-
-        private List<Product> products = new List<Product>();
-        private List<CartItem> cartItems = new List<CartItem>();
-
-        private void LoadSampleProducts()
-        {
-            products.Add(new Product { Id = 1, Name = "蘋果", Price = 30, Category = "水果", ImagePath = "Resources/蘋果.png" });
-            products.Add(new Product { Id = 2, Name = "香蕉", Price = 25, Category = "水果", ImagePath = "Resources/香蕉.png" });
-            products.Add(new Product { Id = 3, Name = "牛奶", Price = 50, Category = "飲料", ImagePath = "Resources/牛奶.png" });
-        }
+        //private void LoadSampleProducts()
+        //{
+        //    products.Add(new Product { Id = 1, Name = "蘋果", Price = 30, Category = "水果", ImagePath = "Resources/蘋果.jpg" });
+        //    products.Add(new Product { Id = 2, Name = "香蕉", Price = 25, Category = "水果", ImagePath = "Resources/香蕉.png" });
+        //    products.Add(new Product { Id = 3, Name = "牛奶", Price = 50, Category = "飲料", ImagePath = "Resources/牛奶.png" });
+        //}
         private void SetupCategoryComboBox()
         {
             cmbCategory.Items.Add("全部");
@@ -175,6 +188,25 @@ namespace ShoppingSystem
                 count += item.Quantity;
             }
             btnCart.Text = $"購物車({count})";
+        }
+
+        private void btnHistory_Click(object sender, EventArgs e)
+        {
+            using(HistoryForm form = new HistoryForm(orderHistory))
+            {
+                form.ShowDialog();
+            }
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            string cntStr = @"Data Source= (LocalDB)\MSSQLLocalDB;" +
+                @"AttachDBFilename = |DataDirectory|\Database.mdf;";
+
+            var repo = new ProductRepository(cntStr);
+            products = repo.GetAll();
+            SetupCategoryComboBox();
+            DisplayProducts(products);
         }
     }
 }

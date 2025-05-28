@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace ShoppingSystem.Models
 {
-    class Order
+    public class Order
     {
+        public int OrderId { get; set; }
+        public DateTime Date { get; set; }
+        public List<CartItem> Items { get; set; } = new List<CartItem>();
+        public int TotalPrice => Items.Sum(i => i.Product.Price * i.Quantity);
+
     }
 }
