@@ -28,22 +28,26 @@ namespace ShoppingSystem
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-
+     
         }
 
         private void cmbCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            string category = cmbCategory.SelectedItem.ToString();
+            if (category == "全部")
+                DisplayProducts(products);
+            else
+                DisplayProducts(products.FindAll(p => p.Category == category));
         }
 
         private void btnCart_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show("購物車功能待實作");
         }
 
         private void btnAdmin_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show("管理員功能待實作");
         }
 
         //簡易商品類別
