@@ -19,15 +19,8 @@ namespace ShoppingSystem
         public MainForm()
         {
             InitializeComponent();
-            //btnSearch.Click += btnSearch_Click;
-            //cmbCategory.SelectedIndexChanged += cmbCategory_SelectedIndexChanged;
-            //btnCart.Click += btnCart_Click;
-            //btnAdmin.Click += btnAdmin_Click;
-
             //LoadSampleProducts();
-            SetupCategoryComboBox();
-            DisplayProducts(products);
-        
+
         }
 
         private List<Product> products = new List<Product>();
@@ -82,17 +75,16 @@ namespace ShoppingSystem
         {
             MessageBox.Show("管理員功能待實作");
         }
-        //private void LoadSampleProducts()
-        //{
-        //    products.Add(new Product { Id = 1, Name = "蘋果", Price = 30, Category = "水果", ImagePath = "Resources/蘋果.jpg" });
-        //    products.Add(new Product { Id = 2, Name = "香蕉", Price = 25, Category = "水果", ImagePath = "Resources/香蕉.png" });
-        //    products.Add(new Product { Id = 3, Name = "牛奶", Price = 50, Category = "飲料", ImagePath = "Resources/牛奶.png" });
-        //}
+
         private void SetupCategoryComboBox()
         {
             cmbCategory.Items.Add("全部");
-            cmbCategory.Items.Add("水果");
-            cmbCategory.Items.Add("飲料");
+            var categories = products.Select(p=>p.Category).Distinct().ToList();
+            foreach( var category in categories)
+            {
+                cmbCategory.Items.Add(category);
+            }
+
             cmbCategory.SelectedIndex = 0;
         }
 
@@ -197,16 +189,75 @@ namespace ShoppingSystem
                 form.ShowDialog();
             }
         }
-
+        SqlConnection sqlDb = null;
         private void MainForm_Load(object sender, EventArgs e)
         {
             string cntStr = @"Data Source= (LocalDB)\MSSQLLocalDB;" +
                 @"AttachDBFilename = |DataDirectory|\Database.mdf;";
+            try
+            {
+                sqlDb = new SqlConnection(cntStr);
+                sqlDb.Open();
 
-            var repo = new ProductRepository(cntStr);
-            products = repo.GetAll();
-            SetupCategoryComboBox();
+                string sqlStr = "SELECT * FROM Products";
+
+                SqlCommand sqlCmd = new SqlCommand(sqlStr, sqlDb);
+                SqlDataReader sqlDr = sqlCmd.ExecuteReader();
+
+                products.Clear(); // 先清空舊資料
+                flpProducts.Font = new Font("微軟正黑體", 10);
+
+                while (sqlDr.Read())
+                {
+                    Product p = new Product
+                    {
+                        Id = Convert.ToInt32(sqlDr["Id"]),
+                        Name = sqlDr["Name"].ToString(),
+                        Price = Convert.ToInt32(sqlDr["Price"]),
+                        Category = sqlDr["Category"].ToString(),
+                        ImagePath = sqlDr["ImagePath"].ToString()
+                    };
+                    products.Add(p);
+                }
+
+                sqlDr.Close();
+
+                //dgvProducts.Font = new Font("微軟正黑體", 10);
+                //int rowIndex = 0;
+                //for (int i = 0; i < sqlDr.FieldCount; i++)
+                //{
+                //    dgvProducts.Columns.Add("column" + (i + 1).ToString(), sqlDr.GetName(i));
+                //}
+                //while (sqlDr.Read() != false)
+                //{
+                //    dgvProducts.Rows.Add();
+                //    for (int i = 0; i < sqlDr.FieldCount; i++)
+                //    {
+                //        dgvProducts.Rows[rowIndex].Cells[i].Value = sqlDr.GetValue(i).ToString();
+                //    }
+                //    rowIndex++;
+                //}
+                sqlDr.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+
+            //var repo = new ProductRepository(cntStr);
+            //products = repo.GetAll();
+ 
             DisplayProducts(products);
+            SetupCategoryComboBox();
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if(sqlDb != null)
+            {
+                sqlDb.Close();
+            }
         }
     }
 }

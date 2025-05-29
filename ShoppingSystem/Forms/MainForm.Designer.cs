@@ -81,10 +81,10 @@
             // flpProducts
             // 
             this.flpProducts.AutoScroll = true;
-            this.flpProducts.Location = new System.Drawing.Point(55, 195);
+            this.flpProducts.Location = new System.Drawing.Point(55, 205);
             this.flpProducts.Margin = new System.Windows.Forms.Padding(4);
             this.flpProducts.Name = "flpProducts";
-            this.flpProducts.Size = new System.Drawing.Size(550, 345);
+            this.flpProducts.Size = new System.Drawing.Size(788, 316);
             this.flpProducts.TabIndex = 4;
             // 
             // btnCart
@@ -135,6 +135,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.Text = "MainForm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
