@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ShoppingSystem.Data;
+
 
 namespace ShoppingSystem
 {
@@ -73,7 +73,22 @@ namespace ShoppingSystem
 
         private void btnAdmin_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("管理員功能待實作");
+            using (AdminLoginForm f = new AdminLoginForm())
+            {
+                if(f.ShowDialog() == DialogResult.OK && f.IsAuthenticated)
+                {
+                    MessageBox.Show("登入成功！進入管理介面");
+                    AdminForm form = new AdminForm();
+                    form.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("未授權或取消登入");
+                }
+             
+            }
+         
+  
         }
 
         private void SetupCategoryComboBox()
@@ -193,7 +208,7 @@ namespace ShoppingSystem
         private void MainForm_Load(object sender, EventArgs e)
         {
             string cntStr = @"Data Source= (LocalDB)\MSSQLLocalDB;" +
-                @"AttachDBFilename = |DataDirectory|\Database.mdf;";
+                @"AttachDBFilename = C:\Users\tengy\source\repos\ShoppingSystem\ShoppingSystem\Database.mdf;Integrated Security=True;";
             try
             {
                 sqlDb = new SqlConnection(cntStr);
@@ -202,25 +217,25 @@ namespace ShoppingSystem
                 string sqlStr = "SELECT * FROM Products";
 
                 SqlCommand sqlCmd = new SqlCommand(sqlStr, sqlDb);
-                SqlDataReader sqlDr = sqlCmd.ExecuteReader();
+                SqlDataReader reader = sqlCmd.ExecuteReader();
 
                 products.Clear(); // 先清空舊資料
                 flpProducts.Font = new Font("微軟正黑體", 10);
 
-                while (sqlDr.Read())
+                while (reader.Read())
                 {
                     Product p = new Product
                     {
-                        Id = Convert.ToInt32(sqlDr["Id"]),
-                        Name = sqlDr["Name"].ToString(),
-                        Price = Convert.ToInt32(sqlDr["Price"]),
-                        Category = sqlDr["Category"].ToString(),
-                        ImagePath = sqlDr["ImagePath"].ToString()
+                        Id = Convert.ToInt32(reader["Id"]),
+                        Name = reader["Name"].ToString(),
+                        Price = Convert.ToInt32(reader["Price"]),
+                        Category = reader["Category"].ToString(),
+                        ImagePath = reader["ImagePath"].ToString()
                     };
                     products.Add(p);
                 }
 
-                sqlDr.Close();
+                reader.Close();
 
                 //dgvProducts.Font = new Font("微軟正黑體", 10);
                 //int rowIndex = 0;
@@ -237,7 +252,6 @@ namespace ShoppingSystem
                 //    }
                 //    rowIndex++;
                 //}
-                sqlDr.Close();
             }
             catch (Exception ex)
             {
