@@ -41,7 +41,7 @@
             // lblTitle
             // 
             this.lblTitle.AutoSize = true;
-            this.lblTitle.Location = new System.Drawing.Point(53, 46);
+            this.lblTitle.Location = new System.Drawing.Point(52, 36);
             this.lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(82, 15);
@@ -50,7 +50,7 @@
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(55, 92);
+            this.txtSearch.Location = new System.Drawing.Point(54, 82);
             this.txtSearch.Margin = new System.Windows.Forms.Padding(4);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(132, 25);
@@ -59,7 +59,7 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(211, 91);
+            this.btnSearch.Location = new System.Drawing.Point(210, 81);
             this.btnSearch.Margin = new System.Windows.Forms.Padding(4);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(100, 29);
@@ -71,7 +71,7 @@
             // cmbCategory
             // 
             this.cmbCategory.FormattingEnabled = true;
-            this.cmbCategory.Location = new System.Drawing.Point(56, 144);
+            this.cmbCategory.Location = new System.Drawing.Point(55, 134);
             this.cmbCategory.Margin = new System.Windows.Forms.Padding(4);
             this.cmbCategory.Name = "cmbCategory";
             this.cmbCategory.Size = new System.Drawing.Size(160, 23);
@@ -81,10 +81,10 @@
             // flpProducts
             // 
             this.flpProducts.AutoScroll = true;
-            this.flpProducts.Location = new System.Drawing.Point(55, 205);
+            this.flpProducts.Location = new System.Drawing.Point(55, 195);
             this.flpProducts.Margin = new System.Windows.Forms.Padding(4);
             this.flpProducts.Name = "flpProducts";
-            this.flpProducts.Size = new System.Drawing.Size(788, 316);
+            this.flpProducts.Size = new System.Drawing.Size(779, 326);
             this.flpProducts.TabIndex = 4;
             // 
             // btnCart

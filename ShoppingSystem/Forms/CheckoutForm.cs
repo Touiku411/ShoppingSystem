@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,8 @@ namespace ShoppingSystem.Forms
     public partial class CheckoutForm: Form
     {
         private List<CartItem> cartItems;
+        int totalPrice;
+        string userName = "Guest";
         public CheckoutForm(List<CartItem> cartItems)
         {
             InitializeComponent();
@@ -51,11 +54,56 @@ namespace ShoppingSystem.Forms
   
         private void btnConfirm_Click(object sender, EventArgs e)
         {
+
             if (cartItems.Count == 0)
             {
                 MessageBox.Show("購物車是空的！");
                 return;
             }
+
+            string cntStr = @"Data Source= (LocalDB)\MSSQLLocalDB;" +
+                @"AttachDBFilename = C:\Users\tengy\source\repos\ShoppingSystem\ShoppingSystem\Database.mdf;
+                Integrated Security=True;";
+            using (SqlConnection conn = new SqlConnection(cntStr))
+            {
+                conn.Open();
+                SqlTransaction tx = conn.BeginTransaction();
+
+                try
+                {
+                    //寫入Orders
+                    string sqlOrder = "INSERT INTO Orders([OrderDate ],TotalPrice,UserName) VALUES(GETDATE(),@totalPrice,@userName); SELECT SCOPE_IDENTITY();";
+                    SqlCommand cmdOrder = new SqlCommand(sqlOrder, conn, tx);
+
+                    cmdOrder.Parameters.AddWithValue("@totalPrice", totalPrice);
+                    cmdOrder.Parameters.AddWithValue("@userName", userName);
+                    int orderId = Convert.ToInt32(cmdOrder.ExecuteScalar());
+
+
+                    //寫入OrderItmes
+                    foreach (var item in cartItems)
+                    {
+                        string sqlItem = "INSERT INTO OrderItems(OrderId,ProductId,Quantity,UnitPrice) VALUES(@orderId, @productId, @quantity, @unitPrice);";
+                        SqlCommand cmdItem = new SqlCommand(sqlItem, conn, tx);
+
+                        cmdItem.Parameters.AddWithValue("@orderId", orderId);
+                        cmdItem.Parameters.AddWithValue("@productId", item.Product.Id);
+                        cmdItem.Parameters.AddWithValue("@quantity", item.Quantity);
+                        cmdItem.Parameters.AddWithValue("@unitPrice", item.Product.Price);
+                        cmdItem.ExecuteNonQuery();
+                    }
+                    tx.Commit();
+                    MessageBox.Show("訂單儲存成功！");
+                }
+                catch (Exception ex)
+                {
+                    {
+                        tx.Rollback();
+                        MessageBox.Show("訂單儲存失敗：" + ex.Message);
+                    }
+                }
+            }
+
 
             MessageBox.Show("訂單已成立！");
             cartItems.Clear(); // 清空購物車

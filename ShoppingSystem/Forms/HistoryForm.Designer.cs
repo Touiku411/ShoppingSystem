@@ -46,7 +46,7 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(694, 161);
+            this.btnClose.Location = new System.Drawing.Point(715, 66);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 1;
@@ -57,7 +57,7 @@
             // lblEmpty
             // 
             this.lblEmpty.AutoSize = true;
-            this.lblEmpty.Location = new System.Drawing.Point(231, 66);
+            this.lblEmpty.Location = new System.Drawing.Point(129, 66);
             this.lblEmpty.Name = "lblEmpty";
             this.lblEmpty.Size = new System.Drawing.Size(97, 15);
             this.lblEmpty.TabIndex = 2;
@@ -68,11 +68,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1067, 562);
+            this.ClientSize = new System.Drawing.Size(869, 494);
             this.Controls.Add(this.lblEmpty);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.dgvOrders);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "HistoryForm";
             this.Text = "HistoryForm";
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrders)).EndInit();

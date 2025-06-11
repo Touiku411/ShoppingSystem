@@ -38,17 +38,17 @@
             // dgvCart
             // 
             this.dgvCart.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvCart.Location = new System.Drawing.Point(68, 117);
+            this.dgvCart.Location = new System.Drawing.Point(12, 57);
             this.dgvCart.Name = "dgvCart";
             this.dgvCart.RowHeadersWidth = 51;
             this.dgvCart.RowTemplate.Height = 27;
-            this.dgvCart.Size = new System.Drawing.Size(324, 200);
+            this.dgvCart.Size = new System.Drawing.Size(606, 381);
             this.dgvCart.TabIndex = 0;
             // 
             // lblTotal
             // 
             this.lblTotal.AutoSize = true;
-            this.lblTotal.Location = new System.Drawing.Point(65, 72);
+            this.lblTotal.Location = new System.Drawing.Point(65, 20);
             this.lblTotal.Name = "lblTotal";
             this.lblTotal.Size = new System.Drawing.Size(52, 15);
             this.lblTotal.TabIndex = 1;
@@ -56,7 +56,7 @@
             // 
             // btnConfirm
             // 
-            this.btnConfirm.Location = new System.Drawing.Point(556, 139);
+            this.btnConfirm.Location = new System.Drawing.Point(713, 20);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(75, 23);
             this.btnConfirm.TabIndex = 2;
@@ -66,7 +66,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(556, 211);
+            this.btnCancel.Location = new System.Drawing.Point(621, 20);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 3;

@@ -22,7 +22,7 @@ namespace ShoppingSystem.Forms
         private void btnLogin_Click(object sender, EventArgs e)
         {
             string username = txtUsername.Text.Trim();
-            string password = txtPassword.Text;
+            string password = txtPassword.Text.Trim();
 
             string cntStr = @"Data Source= (LocalDB)\MSSQLLocalDB;" +
                 @"AttachDBFilename = C:\Users\tengy\source\repos\ShoppingSystem\ShoppingSystem\Database.mdf;Integrated Security=True;";
