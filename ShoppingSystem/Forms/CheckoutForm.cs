@@ -16,8 +16,7 @@ namespace ShoppingSystem.Forms
     public partial class CheckoutForm: Form
     {
         private List<CartItem> cartItems;
-        int totalPrice;
-        string userName = "Guest";
+   
         public CheckoutForm(List<CartItem> cartItems)
         {
             InitializeComponent();
@@ -61,6 +60,9 @@ namespace ShoppingSystem.Forms
                 return;
             }
 
+            int totalPrice = cartItems.Sum(item => item.Product.Price * item.Quantity);
+            string userName = "Guest";
+
             string cntStr = @"Data Source= (LocalDB)\MSSQLLocalDB;" +
                 @"AttachDBFilename = C:\Users\tengy\source\repos\ShoppingSystem\ShoppingSystem\Database.mdf;
                 Integrated Security=True;";
@@ -74,7 +76,7 @@ namespace ShoppingSystem.Forms
                     //寫入Orders
                     string sqlOrder = "INSERT INTO Orders([OrderDate ],TotalPrice,UserName) VALUES(GETDATE(),@totalPrice,@userName); SELECT SCOPE_IDENTITY();";
                     SqlCommand cmdOrder = new SqlCommand(sqlOrder, conn, tx);
-
+             
                     cmdOrder.Parameters.AddWithValue("@totalPrice", totalPrice);
                     cmdOrder.Parameters.AddWithValue("@userName", userName);
                     int orderId = Convert.ToInt32(cmdOrder.ExecuteScalar());

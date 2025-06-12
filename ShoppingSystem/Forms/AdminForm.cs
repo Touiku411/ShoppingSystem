@@ -21,14 +21,18 @@ namespace ShoppingSystem.Forms
         private string cntStr = @"Data Source= (LocalDB)\MSSQLLocalDB;" +
                 @"AttachDBFilename = C:\Users\tengy\source\repos\ShoppingSystem\ShoppingSystem\Database.mdf;Integrated Security=True;"; 
         private List<Product> products = new List<Product>();
-
+        private List<Order> orders = new List<Order>();
         public AdminForm()
         {
             InitializeComponent();
-            LoadProducts();
+            //LoadProducts();
             SetupCategoryComboBox();
+            if(tabControls.SelectedTab == tabPageProducts)
+            {
+                LoadProducts();
+            }
         }
-
+            
         private void LoadProducts()
         {
             products.Clear();
@@ -56,6 +60,34 @@ namespace ShoppingSystem.Forms
                 foreach (var p in products)
                 {
                     dgvProducts.Rows.Add(p.Id, p.Name, p.Price, p.Category, p.ImagePath);
+                }
+            }
+        }
+        private void LoadOrders()
+        {
+            orders.Clear();
+            dgvOrders.Rows.Clear();
+
+            using(SqlConnection conn = new SqlConnection(cntStr))
+            {
+                conn.Open();
+                string sql = "SELECT * FROM Orders;";
+                SqlCommand cmd = new SqlCommand(sql,conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    var p = new Order()
+                    {
+                        Id  = (int)reader["Id"],
+                        OrderDate = Convert.ToDateTime(reader["OrderDate"]),
+                        TotalPrice = Convert.ToInt32(reader["TotalPrice"]),
+                        UserName = reader["UserName"].ToString(),
+                    };
+                    orders.Add(p);
+                }
+                foreach(var p in orders)
+                {
+                    dgvOrders.Rows.Add(p.Id,p.OrderDate,p.TotalPrice,p.UserName);
                 }
             }
         }
@@ -147,6 +179,18 @@ namespace ShoppingSystem.Forms
                 int rows = cmd.ExecuteNonQuery();
                 MessageBox.Show(rows > 0 ? "刪除成功！" : "找不到該商品！");
                 LoadProducts();
+            }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(tabControls.SelectedTab == tabPageProducts)
+            {
+                LoadProducts();
+            }
+            else if(tabControls.SelectedTab == tabPageOrders)
+            {
+                LoadOrders();
             }
         }
     }

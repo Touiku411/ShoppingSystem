@@ -8,10 +8,11 @@ namespace ShoppingSystem.Models
 {
     public class Order
     {
-        public int OrderId { get; set; }
-        public DateTime Date { get; set; }
+        public int Id { get; set; }
+        public DateTime OrderDate { get; set; }
+        public string UserName { get; set; }
         public List<CartItem> Items { get; set; } = new List<CartItem>();
-        public int TotalPrice => Items.Sum(i => i.Product.Price * i.Quantity);
+        public int TotalPrice { get; set; }
 
     }
 }

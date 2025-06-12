@@ -59,8 +59,8 @@ namespace ShoppingSystem
                     // 這裡才建立訂單（使用 cartSnapshot，而不是 cartItems）
                     var newOrder = new Order
                     {
-                        OrderId = orderHistory.Count + 1,
-                        Date = DateTime.Now,
+                        Id = orderHistory.Count + 1,
+                        OrderDate = DateTime.Now,
                         Items = cartSnapshot
                     };
                     orderHistory.Add(newOrder);
@@ -199,10 +199,9 @@ namespace ShoppingSystem
 
         private void btnHistory_Click(object sender, EventArgs e)
         {
-            using(HistoryForm form = new HistoryForm(orderHistory))
-            {
-                form.ShowDialog();
-            }
+            string currentUser = "Guest";
+            HistoryForm form = new HistoryForm(currentUser);
+            form.ShowDialog();
         }
         SqlConnection sqlDb = null;
         private void MainForm_Load(object sender, EventArgs e)

@@ -37,16 +37,17 @@
             // dgvOrders
             // 
             this.dgvOrders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvOrders.Location = new System.Drawing.Point(132, 99);
+            this.dgvOrders.Location = new System.Drawing.Point(42, 99);
             this.dgvOrders.Name = "dgvOrders";
             this.dgvOrders.RowHeadersWidth = 51;
             this.dgvOrders.RowTemplate.Height = 27;
-            this.dgvOrders.Size = new System.Drawing.Size(365, 330);
+            this.dgvOrders.Size = new System.Drawing.Size(528, 330);
             this.dgvOrders.TabIndex = 0;
+            this.dgvOrders.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOrders_CellDoubleClick);
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(715, 66);
+            this.btnClose.Location = new System.Drawing.Point(495, 58);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 1;
@@ -57,7 +58,7 @@
             // lblEmpty
             // 
             this.lblEmpty.AutoSize = true;
-            this.lblEmpty.Location = new System.Drawing.Point(129, 66);
+            this.lblEmpty.Location = new System.Drawing.Point(39, 58);
             this.lblEmpty.Name = "lblEmpty";
             this.lblEmpty.Size = new System.Drawing.Size(97, 15);
             this.lblEmpty.TabIndex = 2;
@@ -68,7 +69,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(869, 494);
+            this.ClientSize = new System.Drawing.Size(771, 488);
             this.Controls.Add(this.lblEmpty);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.dgvOrders);
