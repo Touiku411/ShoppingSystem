@@ -47,7 +47,7 @@ namespace ShoppingSystem
         {
             using(CheckoutForm form = new CheckoutForm(cartItems))
             {
-                // 建立副本，保證資料不會被 CheckoutForm 清掉
+                // 建立副本，保證資料不會被 CheckoutForm 清
                 var cartSnapshot = cartItems.Select(item => new CartItem
                 {
                     Product = item.Product,
