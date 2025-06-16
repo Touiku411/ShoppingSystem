@@ -55,9 +55,9 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(543, 8);
+            this.btnClose.Location = new System.Drawing.Point(508, 8);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(75, 23);
+            this.btnClose.Size = new System.Drawing.Size(110, 27);
             this.btnClose.TabIndex = 2;
             this.btnClose.Text = "關閉表單";
             this.btnClose.UseVisualStyleBackColor = true;
