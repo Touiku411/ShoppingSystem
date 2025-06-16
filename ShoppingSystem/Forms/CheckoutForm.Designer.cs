@@ -48,7 +48,7 @@
             // lblTotal
             // 
             this.lblTotal.AutoSize = true;
-            this.lblTotal.Location = new System.Drawing.Point(65, 20);
+            this.lblTotal.Location = new System.Drawing.Point(31, 20);
             this.lblTotal.Name = "lblTotal";
             this.lblTotal.Size = new System.Drawing.Size(52, 15);
             this.lblTotal.TabIndex = 1;
@@ -56,9 +56,9 @@
             // 
             // btnConfirm
             // 
-            this.btnConfirm.Location = new System.Drawing.Point(713, 20);
+            this.btnConfirm.Location = new System.Drawing.Point(527, 12);
             this.btnConfirm.Name = "btnConfirm";
-            this.btnConfirm.Size = new System.Drawing.Size(75, 23);
+            this.btnConfirm.Size = new System.Drawing.Size(91, 31);
             this.btnConfirm.TabIndex = 2;
             this.btnConfirm.Text = "確認結帳";
             this.btnConfirm.UseVisualStyleBackColor = true;
@@ -66,9 +66,9 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(621, 20);
+            this.btnCancel.Location = new System.Drawing.Point(430, 12);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(91, 31);
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "取消關閉";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -78,7 +78,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(633, 450);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnConfirm);
             this.Controls.Add(this.lblTotal);

@@ -84,12 +84,12 @@
             this.flpProducts.Location = new System.Drawing.Point(55, 195);
             this.flpProducts.Margin = new System.Windows.Forms.Padding(4);
             this.flpProducts.Name = "flpProducts";
-            this.flpProducts.Size = new System.Drawing.Size(779, 326);
+            this.flpProducts.Size = new System.Drawing.Size(569, 326);
             this.flpProducts.TabIndex = 4;
             // 
             // btnCart
             // 
-            this.btnCart.Location = new System.Drawing.Point(555, 90);
+            this.btnCart.Location = new System.Drawing.Point(524, 82);
             this.btnCart.Margin = new System.Windows.Forms.Padding(4);
             this.btnCart.Name = "btnCart";
             this.btnCart.Size = new System.Drawing.Size(100, 29);
@@ -100,20 +100,20 @@
             // 
             // btnAdmin
             // 
-            this.btnAdmin.Location = new System.Drawing.Point(447, 90);
+            this.btnAdmin.Location = new System.Drawing.Point(366, 82);
             this.btnAdmin.Margin = new System.Windows.Forms.Padding(4);
             this.btnAdmin.Name = "btnAdmin";
-            this.btnAdmin.Size = new System.Drawing.Size(100, 29);
+            this.btnAdmin.Size = new System.Drawing.Size(150, 29);
             this.btnAdmin.TabIndex = 6;
-            this.btnAdmin.Text = "管理員";
+            this.btnAdmin.Text = "管理員/會員登入";
             this.btnAdmin.UseVisualStyleBackColor = true;
             this.btnAdmin.Click += new System.EventHandler(this.btnAdmin_Click);
             // 
             // btnHistory
             // 
-            this.btnHistory.Location = new System.Drawing.Point(703, 97);
+            this.btnHistory.Location = new System.Drawing.Point(524, 118);
             this.btnHistory.Name = "btnHistory";
-            this.btnHistory.Size = new System.Drawing.Size(75, 23);
+            this.btnHistory.Size = new System.Drawing.Size(100, 29);
             this.btnHistory.TabIndex = 7;
             this.btnHistory.Text = "訂單歷史";
             this.btnHistory.UseVisualStyleBackColor = true;
@@ -123,7 +123,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1067, 562);
+            this.ClientSize = new System.Drawing.Size(663, 562);
             this.Controls.Add(this.btnHistory);
             this.Controls.Add(this.btnAdmin);
             this.Controls.Add(this.btnCart);

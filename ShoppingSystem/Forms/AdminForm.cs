@@ -16,10 +16,8 @@ namespace ShoppingSystem.Forms
     public partial class AdminForm: Form
     {
         SqlConnection SqlDb = null;
-        //private string cntStr = @"Data Source= (LocalDB)\MSSQLLocalDB;" +
-        //        @"AttachDBFilename = |DataDirectory|\Database.mdf;Integrated Security=True;"
         private string cntStr = @"Data Source= (LocalDB)\MSSQLLocalDB;" +
-                @"AttachDBFilename = C:\Users\tengy\source\repos\ShoppingSystem\ShoppingSystem\Database.mdf;Integrated Security=True;"; 
+                @"AttachDBFilename = |DataDirectory|\Database.mdf;Integrated Security=True;"; 
         private List<Product> products = new List<Product>();
         private List<Order> orders = new List<Order>();
         public AdminForm()

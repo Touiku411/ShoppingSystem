@@ -16,12 +16,13 @@ namespace ShoppingSystem.Forms
     public partial class CheckoutForm: Form
     {
         private List<CartItem> cartItems;
-   
-        public CheckoutForm(List<CartItem> cartItems)
+        private string currentUser;
+        public CheckoutForm(List<CartItem> cartItems, string currentUser)
         {
             InitializeComponent();
             this.cartItems = cartItems;
             InitializeCartView();
+            this.currentUser = currentUser;
         }
 
         private void InitializeCartView()
@@ -61,10 +62,10 @@ namespace ShoppingSystem.Forms
             }
 
             int totalPrice = cartItems.Sum(item => item.Product.Price * item.Quantity);
-            string userName = "Guest";
+            string userName = currentUser;
 
             string cntStr = @"Data Source= (LocalDB)\MSSQLLocalDB;" +
-                @"AttachDBFilename = C:\Users\tengy\source\repos\ShoppingSystem\ShoppingSystem\Database.mdf;
+                @"AttachDBFilename = |DataDirectory|\Database.mdf;
                 Integrated Security=True;";
             using (SqlConnection conn = new SqlConnection(cntStr))
             {
@@ -105,9 +106,6 @@ namespace ShoppingSystem.Forms
                     }
                 }
             }
-
-
-            MessageBox.Show("訂單已成立！");
             cartItems.Clear(); // 清空購物車
             this.DialogResult = DialogResult.OK;
             this.Close();

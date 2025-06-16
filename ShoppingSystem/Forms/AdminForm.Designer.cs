@@ -29,6 +29,11 @@
         private void InitializeComponent()
         {
             this.dgvProducts = new System.Windows.Forms.DataGridView();
+            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCat = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colImg = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -50,11 +55,6 @@
             this.OrderDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TotalPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UserName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCat = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colImg = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).BeginInit();
             this.tabControls.SuspendLayout();
             this.tabPageProducts.SuspendLayout();
@@ -77,6 +77,41 @@
             this.dgvProducts.RowTemplate.Height = 27;
             this.dgvProducts.Size = new System.Drawing.Size(576, 468);
             this.dgvProducts.TabIndex = 0;
+            // 
+            // colId
+            // 
+            this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colId.HeaderText = "ID";
+            this.colId.MinimumWidth = 6;
+            this.colId.Name = "colId";
+            // 
+            // colName
+            // 
+            this.colName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colName.HeaderText = "商品名稱";
+            this.colName.MinimumWidth = 6;
+            this.colName.Name = "colName";
+            // 
+            // colPrice
+            // 
+            this.colPrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colPrice.HeaderText = "價格";
+            this.colPrice.MinimumWidth = 6;
+            this.colPrice.Name = "colPrice";
+            // 
+            // colCat
+            // 
+            this.colCat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colCat.HeaderText = "分類";
+            this.colCat.MinimumWidth = 6;
+            this.colCat.Name = "colCat";
+            // 
+            // colImg
+            // 
+            this.colImg.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colImg.HeaderText = "圖片路徑\t";
+            this.colImg.MinimumWidth = 6;
+            this.colImg.Name = "colImg";
             // 
             // txtName
             // 
@@ -208,7 +243,7 @@
             this.tabPageProducts.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageProducts.Size = new System.Drawing.Size(576, 468);
             this.tabPageProducts.TabIndex = 0;
-            this.tabPageProducts.Text = "tabPageProducts";
+            this.tabPageProducts.Text = "產品資訊";
             this.tabPageProducts.UseVisualStyleBackColor = true;
             // 
             // tabPageOrders
@@ -219,7 +254,7 @@
             this.tabPageOrders.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageOrders.Size = new System.Drawing.Size(576, 468);
             this.tabPageOrders.TabIndex = 1;
-            this.tabPageOrders.Text = "tabPageOrders";
+            this.tabPageOrders.Text = "交易紀錄";
             this.tabPageOrders.UseVisualStyleBackColor = true;
             // 
             // dgvOrders
@@ -264,41 +299,6 @@
             this.UserName.HeaderText = "UserName";
             this.UserName.MinimumWidth = 6;
             this.UserName.Name = "UserName";
-            // 
-            // colId
-            // 
-            this.colId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colId.HeaderText = "ID";
-            this.colId.MinimumWidth = 6;
-            this.colId.Name = "colId";
-            // 
-            // colName
-            // 
-            this.colName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colName.HeaderText = "商品名稱";
-            this.colName.MinimumWidth = 6;
-            this.colName.Name = "colName";
-            // 
-            // colPrice
-            // 
-            this.colPrice.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colPrice.HeaderText = "價格";
-            this.colPrice.MinimumWidth = 6;
-            this.colPrice.Name = "colPrice";
-            // 
-            // colCat
-            // 
-            this.colCat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colCat.HeaderText = "分類";
-            this.colCat.MinimumWidth = 6;
-            this.colCat.Name = "colCat";
-            // 
-            // colImg
-            // 
-            this.colImg.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colImg.HeaderText = "圖片路徑\t";
-            this.colImg.MinimumWidth = 6;
-            this.colImg.Name = "colImg";
             // 
             // AdminForm
             // 

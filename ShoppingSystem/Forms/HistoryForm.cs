@@ -16,23 +16,28 @@ namespace ShoppingSystem.Forms
     public partial class HistoryForm: Form
     {
         private List<Order> orders = new List<Order>();
-        public HistoryForm(string userName)
+        private string currentUser;
+        public HistoryForm(string currentUser)
         {
+            this.currentUser = currentUser;
             InitializeComponent();
-            LoadOrderHistory(userName);
+            if (currentUser != "Guest" )
+            {
+                LoadOrderHistory(currentUser);
+            }
             DisplayOrders();
         }
         private void LoadOrderHistory(string userName)
         {
             string cntStr = @"Data Source= (LocalDB)\MSSQLLocalDB;" +
-                @"AttachDBFilename = C:\Users\tengy\source\repos\ShoppingSystem\ShoppingSystem\Database.mdf;
+                @"AttachDBFilename = |DataDirectory|\Database.mdf;
                 Integrated Security=True;";
 
             using (SqlConnection conn = new SqlConnection(cntStr))
             {
                 conn.Open();
                 // 先取 Orders 資料
-                string sqlOrder = "SELECT Id, OrderDate FROM Orders WHERE UserName = @userName ORDER BY OrderDate DESC";
+                string sqlOrder = "SELECT Id, OrderDate, UserName FROM Orders WHERE UserName = @userName ORDER BY OrderDate DESC";
                 using (SqlCommand cmd = new SqlCommand(sqlOrder, conn))
                 {
                     cmd.Parameters.AddWithValue("@userName", userName);
@@ -44,6 +49,7 @@ namespace ShoppingSystem.Forms
                             {
                                 Id = Convert.ToInt32(reader["Id"]),
                                 OrderDate = Convert.ToDateTime(reader["OrderDate"]),
+                                UserName = reader["UserName"].ToString(),
                                 Items = new List<CartItem>()
                             });
                         }
@@ -101,12 +107,13 @@ namespace ShoppingSystem.Forms
             dgvOrders.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "訂單編號", DataPropertyName = "OrderId" });
             dgvOrders.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "日期", DataPropertyName = "Date" });
             dgvOrders.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "總金額", DataPropertyName = "TotalPrice" });
-
+            dgvOrders.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "會員", DataPropertyName = "UserName" });
             dgvOrders.DataSource = orders.Select(o => new
             {
                 OrderId = o.Id,
                 Date = o.OrderDate,
-                TotalPrice = o.TotalPrice
+                TotalPrice = o.TotalPrice,
+                UserName = o.UserName
 
             }).ToList();
         }

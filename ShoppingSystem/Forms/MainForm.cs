@@ -21,7 +21,8 @@ namespace ShoppingSystem
         {
             InitializeComponent();
             //LoadSampleProducts();
-
+            btnHistory.Enabled = false;
+   
         }
 
         private List<Product> products = new List<Product>();
@@ -46,7 +47,7 @@ namespace ShoppingSystem
 
         private void btnCart_Click(object sender, EventArgs e)
         {
-            using(CheckoutForm form = new CheckoutForm(cartItems))
+            using(CheckoutForm form = new CheckoutForm(cartItems,currentUser))
             {
                 // 建立副本，保證資料不會被 CheckoutForm 清
                 var cartSnapshot = cartItems.Select(item => new CartItem
@@ -71,25 +72,37 @@ namespace ShoppingSystem
                 }
             }
         }
-
+        private string currentUser = "Guest";
+        private string currentRole = "Guest";
         private void btnAdmin_Click(object sender, EventArgs e)
         {
-            using (AdminLoginForm f = new AdminLoginForm())
+            LoginForm f = new LoginForm();
+
+            if (f.ShowDialog() == DialogResult.OK && f.IsAuthenticated)
             {
-                if(f.ShowDialog() == DialogResult.OK && f.IsAuthenticated)
+                currentUser = f.LoggedInUsername;
+                currentRole = f.LoggedInRole;
+                if (currentRole == "Admin")
                 {
-                    MessageBox.Show("登入成功！進入管理介面");
-                    AdminForm form = new AdminForm();
-                    form.ShowDialog();
+                    MessageBox.Show("管理員登入成功!");
+                    AdminForm adminForm = new AdminForm();
+                    adminForm.ShowDialog();
+                    btnHistory.Enabled = false;
+                }
+                else if(currentRole == "Member") 
+                {
+                    MessageBox.Show("會員登入成功!");
+                    btnHistory.Enabled = true;
                 }
                 else
                 {
-                    MessageBox.Show("未授權或取消登入");
+                    btnHistory.Enabled = false;
                 }
-             
             }
-         
-  
+            else
+            {
+                MessageBox.Show("未授權或取消登入");
+            }
         }
 
         private void SetupCategoryComboBox()
@@ -172,6 +185,27 @@ namespace ShoppingSystem
         }
         private void BtnAddCart_Click(object sender, EventArgs e)
         {
+            if (currentRole != "Member")
+            {
+                MessageBox.Show("請先登入會員才可購買!");
+                LoginForm f = new LoginForm();
+                if (f.ShowDialog() == DialogResult.OK && f.IsAuthenticated)
+                {
+                    currentRole = f.LoggedInRole;
+                    currentUser = f.LoggedInUsername;
+
+                    if (currentRole != "Member")
+                    {
+                        MessageBox.Show("此帳號無購買權限！");
+                        return;
+                    }
+                    else
+                    {
+                        MessageBox.Show("會員登入成功!");
+                    }
+                }
+                return;   
+            }
             Button btn = sender as Button;
             if (btn?.Tag is Product p)
             {
@@ -201,7 +235,6 @@ namespace ShoppingSystem
 
         private void btnHistory_Click(object sender, EventArgs e)
         {
-            string currentUser = "Guest";
             HistoryForm form = new HistoryForm(currentUser);
             form.ShowDialog();
         }
@@ -209,7 +242,7 @@ namespace ShoppingSystem
         private void MainForm_Load(object sender, EventArgs e)
         {
             string cntStr = @"Data Source= (LocalDB)\MSSQLLocalDB;" +
-                @"AttachDBFilename = C:\Users\tengy\source\repos\ShoppingSystem\ShoppingSystem\Database.mdf;Integrated Security=True;";
+                @"AttachDBFilename = |DataDirectory|\Database.mdf;Integrated Security=True;";
             try
             {
                 sqlDb = new SqlConnection(cntStr);
