@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -125,10 +126,11 @@ namespace ShoppingSystem
                     Top = 10,
                     Left = 10,
                 };
-
+              
+                string imgpath = Path.Combine(Application.StartupPath, "image", p.ImagePath);
                 try
                 {
-                    pic.Image = Image.FromFile(p.ImagePath);
+                    pic.Image = Image.FromFile(imgpath);
                 }
                 catch
                 {
