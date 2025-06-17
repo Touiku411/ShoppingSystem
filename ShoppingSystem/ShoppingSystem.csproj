@@ -49,10 +49,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>AD85F5429E080AB70987F7163FA4A597D630DDC9</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>12A7461AEC7C65311CA0E7F9B633358A9A194E8D</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>ShoppingSystem_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
