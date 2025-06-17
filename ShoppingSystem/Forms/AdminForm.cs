@@ -20,7 +20,9 @@ namespace ShoppingSystem.Forms
                 @"AttachDBFilename = |DataDirectory|\Database.mdf;Integrated Security=True;"; 
         private List<Product> products = new List<Product>();
         private List<Order> orders = new List<Order>();
-        public AdminForm()
+        private List<User> users = new List<User>();
+        private MainForm mainForm;
+        public AdminForm(MainForm form)
         {
             InitializeComponent();
             //LoadProducts();
@@ -29,6 +31,7 @@ namespace ShoppingSystem.Forms
             {
                 LoadProducts();
             }
+            this.mainForm = form;
         }
             
         private void LoadProducts()
@@ -74,36 +77,82 @@ namespace ShoppingSystem.Forms
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    var p = new Order()
+                    var o = new Order()
                     {
                         Id  = (int)reader["Id"],
                         OrderDate = Convert.ToDateTime(reader["OrderDate"]),
                         TotalPrice = Convert.ToInt32(reader["TotalPrice"]),
                         UserName = reader["UserName"].ToString(),
                     };
-                    orders.Add(p);
+                    orders.Add(o);
                 }
-                foreach(var p in orders)
+                foreach(var o in orders)
                 {
-                    dgvOrders.Rows.Add(p.Id,p.OrderDate,p.TotalPrice,p.UserName);
+                    dgvOrders.Rows.Add(o.Id,o.OrderDate,o.TotalPrice,o.UserName);
+                }
+            }
+        }
+
+        private void LoadUsers()
+        {
+            users.Clear();
+            dgvUsers.Rows.Clear();
+
+            using(SqlConnection conn = new SqlConnection(cntStr))
+            {
+                conn.Open();
+                string sql = "SELECT * FROM Users;";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    var o = new User()
+                    {
+                        Id = Convert.ToInt32(reader["Id"]),
+                        Username = reader["Username"].ToString(),
+                        Password = reader["Password"].ToString(),
+                        Role = reader["Role"].ToString()
+                    };
+                    users.Add(o);
+                }
+                foreach(var o in users)
+                {
+                    dgvUsers.Rows.Add(o.Id,o.Username,o.Password,o.Role);
                 }
             }
         }
         private void SetupCategoryComboBox()
         {
-            cmbCategory.Items.Clear();
-            cmbCategory.Items.Add("Fruit");
-            cmbCategory.Items.Add("Drink");
-            cmbCategory.SelectedIndex = 0;
+            cmbCategoryAdd.Items.Clear();
+            cmbCategoryAdd.Items.Add("Fruit");
+            cmbCategoryAdd.Items.Add("Drink");
+            cmbCategoryAdd.Items.Add("Bakery");
+            cmbCategoryUpdate.Items.Clear();
+            cmbCategoryUpdate.Items.Add("Fruit");
+            cmbCategoryUpdate.Items.Add("Drink");
+            cmbCategoryUpdate.Items.Add("Bakery");
+
+            cmbCategoryAdd.SelectedIndex = 0;
+            cmbCategoryUpdate.SelectedIndex = 0;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            string name = txtName.Text.Trim();
-            //string category = txtCategory.Text.Trim();
-            string category = cmbCategory.SelectedItem.ToString();
-            string imagepath = txtImagePath.Text.Trim();
-            if (!int.TryParse(txtPrice.Text.Trim(), out int price))
+            string name = txtNameAdd.Text.Trim();
+            string category = cmbCategoryAdd.SelectedItem.ToString();
+            string imagepath = txtImagePathAdd.Text.Trim();
+
+            if (string.IsNullOrEmpty(name))
+            {
+                MessageBox.Show("商品名稱不可為空！");
+                return;
+            }
+            else if(string.IsNullOrEmpty(category))
+            {
+                MessageBox.Show("請選擇商品種類！");
+                return;
+            }
+            if (!int.TryParse(txtPriceAdd.Text.Trim(), out int price))
             {
                 MessageBox.Show("價格格式錯誤！");
                 return;
@@ -124,22 +173,22 @@ namespace ShoppingSystem.Forms
                 LoadProducts();
             }
 
-
+            mainForm.ReloadProduct();
 
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(txtId.Text.Trim(), out int id))
+            if (!int.TryParse(txtIdUpdate.Text.Trim(), out int id))
             {
                 MessageBox.Show("請輸入有效的商品 ID！");
                 return;
             }
-            string name = txtName.Text.Trim();
-            string category = cmbCategory.SelectedItem.ToString();
-            string imagepath = txtImagePath.Text.Trim();
+            string name = txtNameUpdate.Text.Trim();
+            string category = cmbCategoryUpdate.SelectedItem.ToString();
+            string imagepath = txtImagePathUpdate.Text.Trim();
 
-            if(!int.TryParse(txtPrice.Text.Trim(),out int price)){
+            if(!int.TryParse(txtPriceUpdate.Text.Trim(),out int price)){
                 MessageBox.Show("價格格式錯誤！");
                 return;
             }
@@ -158,11 +207,12 @@ namespace ShoppingSystem.Forms
                 MessageBox.Show(rows > 0 ? "更新成功！" : "找不到該商品！");
                 LoadProducts();
             }
+            mainForm.ReloadProduct();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if(!int.TryParse(txtId.Text.Trim(),out int id))
+            if(!int.TryParse(txtIdDelete.Text.Trim(),out int id))
             {
                 MessageBox.Show("請輸入有效的商品 ID！");
                 return;
@@ -178,6 +228,7 @@ namespace ShoppingSystem.Forms
                 MessageBox.Show(rows > 0 ? "刪除成功！" : "找不到該商品！");
                 LoadProducts();
             }
+            mainForm.ReloadProduct();
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -189,6 +240,51 @@ namespace ShoppingSystem.Forms
             else if(tabControls.SelectedTab == tabPageOrders)
             {
                 LoadOrders();
+            }
+            else if(tabControls.SelectedTab == tabPageUsers)
+            {
+                LoadUsers();
+            }
+        }
+
+        private void btnAddUsers_Click(object sender, EventArgs e)
+        {
+            string username = txtUsername.Text.Trim();
+            string password = txtPassword.Text.Trim();
+            string role = txtRole.Text.Trim();
+
+            string sql = "INSERT INTO Users (Username, Password, Role) VALUES(@username, @password, @role);";
+            SqlDb = new SqlConnection(cntStr);
+            SqlDb.Open();
+            using (SqlCommand cmd = new SqlCommand(sql, SqlDb))
+            {
+                cmd.Parameters.AddWithValue ("@username", username);
+                cmd.Parameters.AddWithValue ("@password", password);
+                cmd.Parameters.AddWithValue ("@role", role);
+                int rows = cmd.ExecuteNonQuery();
+                MessageBox.Show(rows > 0 ? "新增成功!" : "新增失敗!");
+                LoadUsers();
+            }
+        }
+
+
+        private void btnDeleteUser_Click(object sender, EventArgs e)
+        {
+            if (!int.TryParse(txtIdUser.Text.Trim(), out int id))
+            {
+                MessageBox.Show("請輸入有效的使用者 ID！");
+                return;
+            }
+
+            string sql = "DELETE FROM Users WHERE Id = @id;";
+            SqlDb = new SqlConnection(cntStr);
+            SqlDb.Open();
+            using (SqlCommand cmd = new SqlCommand(sql, SqlDb))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+                int rows = cmd.ExecuteNonQuery();
+                MessageBox.Show(rows > 0 ? "刪除成功！" : "找不到使用者！");
+                LoadUsers();
             }
         }
     }

@@ -22,12 +22,48 @@ namespace ShoppingSystem
             InitializeComponent();
             //LoadSampleProducts();
             btnHistory.Enabled = false;
-   
+            lbllogin.Text = "尚未登入";
+            lbllogin.TextAlign = ContentAlignment.MiddleCenter;
         }
 
         private List<Product> products = new List<Product>();
         private List<CartItem> cartItems = new List<CartItem>();
         private List<Order> orderHistory = new List<Order>();
+        public void ReloadProduct()
+        {
+            string cntStr = @"Data Source= (LocalDB)\MSSQLLocalDB;" +
+               @"AttachDBFilename = |DataDirectory|\Database.mdf;Integrated Security=True;";
+            products.Clear();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(cntStr))
+                {
+                    conn.Open();
+                    string sql = "SELECT * FROM Products;";
+                    SqlCommand cmd = new SqlCommand(sql, sqlDb);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Product p = new Product
+                        {
+                            Id = Convert.ToInt32(reader["Id"]),
+                            Name = reader["Name"].ToString(),
+                            Price = Convert.ToInt32(reader["Price"]),
+                            Category = reader["Category"].ToString(),
+                            ImagePath = reader["ImagePath"].ToString()
+                        };
+                        products.Add(p);
+                    }
+                    reader.Close();
+                }
+            }catch (Exception ex)
+            {
+                MessageBox.Show("讀取商品時發生錯誤：" + ex.Message);
+            }
+
+            DisplayProducts(products);
+            SetupCategoryComboBox();
+        }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
@@ -85,13 +121,17 @@ namespace ShoppingSystem
                 if (currentRole == "Admin")
                 {
                     MessageBox.Show("管理員登入成功!");
-                    AdminForm adminForm = new AdminForm();
+                    AdminForm adminForm = new AdminForm(this);
                     adminForm.ShowDialog();
                     btnHistory.Enabled = false;
+                    string role = f.LoggedInRole;
+                    lbllogin.Text = $"目前身分:{role}";
                 }
                 else if(currentRole == "Member") 
-                {
+                {               
                     MessageBox.Show("會員登入成功!");
+                    string username = f.LoggedInUsername;
+                    lbllogin.Text = $"目前身分:{username}";
                     btnHistory.Enabled = true;
                 }
                 else
@@ -107,6 +147,7 @@ namespace ShoppingSystem
 
         private void SetupCategoryComboBox()
         {
+            cmbCategory.Items.Clear();
             cmbCategory.Items.Add("全部");
             var categories = products.Select(p=>p.Category).Distinct().ToList();
             foreach( var category in categories)
@@ -120,7 +161,7 @@ namespace ShoppingSystem
         private void DisplayProducts(List<Product> productList)
         {
             flpProducts.Controls.Clear();
-
+          
             foreach (var p in productList)
             {
                 Panel panel = new Panel
@@ -270,31 +311,11 @@ namespace ShoppingSystem
                 }
 
                 reader.Close();
-
-                //dgvProducts.Font = new Font("微軟正黑體", 10);
-                //int rowIndex = 0;
-                //for (int i = 0; i < sqlDr.FieldCount; i++)
-                //{
-                //    dgvProducts.Columns.Add("column" + (i + 1).ToString(), sqlDr.GetName(i));
-                //}
-                //while (sqlDr.Read() != false)
-                //{
-                //    dgvProducts.Rows.Add();
-                //    for (int i = 0; i < sqlDr.FieldCount; i++)
-                //    {
-                //        dgvProducts.Rows[rowIndex].Cells[i].Value = sqlDr.GetValue(i).ToString();
-                //    }
-                //    rowIndex++;
-                //}
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-
-
-            //var repo = new ProductRepository(cntStr);
-            //products = repo.GetAll();
  
             DisplayProducts(products);
             SetupCategoryComboBox();

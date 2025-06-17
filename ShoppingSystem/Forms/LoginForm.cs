@@ -50,6 +50,7 @@ namespace ShoppingSystem.Forms
                             IsAuthenticated = true;
                             this.DialogResult = DialogResult.OK;
                             this.Close();
+                       
                         }
                         else
                         {
@@ -59,6 +60,12 @@ namespace ShoppingSystem.Forms
                 }
             }
 
+        }
+
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+            RegisterFrom f = new RegisterFrom();
+            f.ShowDialog();
         }
     }
 }

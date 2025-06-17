@@ -31,7 +31,7 @@ namespace ShoppingSystem.Forms
             dgvCart.AutoGenerateColumns = false;
             dgvCart.Columns.Clear();
 
-            dgvCart.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "商品名稱", DataPropertyName = "ProductName" });
+            dgvCart.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "商品名稱", DataPropertyName = "ProductName", Name = "商品名稱" });
             dgvCart.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "單價", DataPropertyName = "Price" });
             dgvCart.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "數量", DataPropertyName = "Quantity" });
             dgvCart.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "小計", DataPropertyName = "Subtotal" });
@@ -54,7 +54,6 @@ namespace ShoppingSystem.Forms
   
         private void btnConfirm_Click(object sender, EventArgs e)
         {
-
             if (cartItems.Count == 0)
             {
                 MessageBox.Show("購物車是空的！");
@@ -113,6 +112,23 @@ namespace ShoppingSystem.Forms
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void dgvCart_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            string selectedProductName = dgvCart.Rows[e.RowIndex].Cells["商品名稱"].Value.ToString();
+            DialogResult result = MessageBox.Show($"是否移除 {selectedProductName}？", "確認移除", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                var itemToRemove = cartItems.FirstOrDefault(c => c.Product.Name == selectedProductName);
+                if (itemToRemove != null)
+                {
+                    cartItems.Remove(itemToRemove);
+                    InitializeCartView();
+                }
+            }
         }
     }
 }

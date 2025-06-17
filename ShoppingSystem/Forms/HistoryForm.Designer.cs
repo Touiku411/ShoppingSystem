@@ -47,6 +47,7 @@
             // 
             // btnClose
             // 
+            this.btnClose.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btnClose.Location = new System.Drawing.Point(464, 48);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(106, 35);
@@ -58,9 +59,10 @@
             // lblEmpty
             // 
             this.lblEmpty.AutoSize = true;
+            this.lblEmpty.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.lblEmpty.Location = new System.Drawing.Point(39, 58);
             this.lblEmpty.Name = "lblEmpty";
-            this.lblEmpty.Size = new System.Drawing.Size(97, 15);
+            this.lblEmpty.Size = new System.Drawing.Size(99, 19);
             this.lblEmpty.TabIndex = 2;
             this.lblEmpty.Text = "尚無訂單記錄";
             this.lblEmpty.Visible = false;
