@@ -197,6 +197,12 @@
       <DependentUpon>Database.mdf</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="dbo.OrderItems.sql" />
+    <Content Include="dbo.Orders.sql" />
+    <Content Include="dbo.Products.data.sql" />
+    <Content Include="dbo.Products.sql" />
+    <Content Include="dbo.Users.data.sql" />
+    <Content Include="dbo.Users.sql" />
     <Content Include="image\apple.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

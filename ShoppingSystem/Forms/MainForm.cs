@@ -32,7 +32,7 @@ namespace ShoppingSystem
         public void ReloadProduct()
         {
             string cntStr = @"Data Source= (LocalDB)\MSSQLLocalDB;" +
-               @"AttachDBFilename = |DataDirectory|\Database.mdf;Integrated Security=True;";
+               @"AttachDBFilename = |DataDirectory|\Database.mdf;";
             products.Clear();
             try
             {

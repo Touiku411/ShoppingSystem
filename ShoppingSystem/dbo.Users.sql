@@ -1,0 +1,18 @@
+USE [C:\USERS\TENGY\SOURCE\REPOS\SHOPPINGSYSTEM\SHOPPINGSYSTEM\DATABASE.MDF]
+GO
+
+/****** 物件: Table [dbo].[Users] 指令碼日期: 2025/6/18 下午 03:07:41 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Users] (
+    [Id]       INT            IDENTITY (1, 1) NOT NULL,
+    [Username] NVARCHAR (100) NOT NULL,
+    [Password] NVARCHAR (100) NOT NULL,
+    [Role]     NVARCHAR (10)  NOT NULL
+);
+
+
